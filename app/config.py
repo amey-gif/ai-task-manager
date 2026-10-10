@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     jwt_secret_key: str
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 60
+    ai_api_key: str = ""
+    ai_model: str = "gemini-2.5-flash"
+    ai_timeout_seconds: float = 30
 
 
 @lru_cache
