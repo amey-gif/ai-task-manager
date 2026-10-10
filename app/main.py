@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-
+from sqlalchemy.exc import SQLAlchemyError
 from app.ai.exceptions import AIServiceError
 from app.api import auth, tasks
 
@@ -18,3 +18,7 @@ def handle_ai_error(request: Request, exc: AIServiceError):
 @app.get("/health", tags=["Health"])
 def health():
     return {"status": "ok"}
+    
+@app.exception_handler(SQLAlchemyError)
+def handle_database_error(request: Request, exc: SQLAlchemyError):
+    return JSONResponse(status_code=500, content={"detail": "A database error occurred. Please try again later."})
